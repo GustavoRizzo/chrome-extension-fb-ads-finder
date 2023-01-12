@@ -1,0 +1,27 @@
+.chamativo {
+    color: black;
+}
+
+.rainbow {
+    animation: rainbow 6000ms;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes rainbow {
+    0% {
+      background-color: red;
+    }
+  
+    35% {
+      background-color: orange;
+    }
+  
+    70% {
+      background-color: yellow;
+    }
+  
+    95% {
+      background-color: green;
+    }
+
+  }

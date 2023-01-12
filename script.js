@@ -8,7 +8,9 @@ function replaceText(element){
         element.childNodes.forEach(replaceText) //recursivamente vai chamando as funções para os filhos dos elementos
     } else if (element.nodeType === Text.TEXT_NODE) {
         if (element.textContent.match(/COVID/gi)) {
-            element.parentElement.style.backgroundColor = 'pink';
+            //element.parentElement.style.backgroundColor = 'pink';
+            element.parentElement.classList.add("chamativo");
+            element.parentElement.classList.add("rainbow");
         }
         /* Exemplo replace text
         if (element.nodeType === Text.TEXT_NODE) {
