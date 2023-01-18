@@ -1,8 +1,8 @@
 console.log('Executando extenção fb-ads-finder');
 
 //  === VARIAVEIS ===
-const find_regex = /anúncios/g;
-const add_text = 'marcosolha';
+var find_regex = /anúncios/g;
+var add_text = 'marcosolha';
 
 
 //  === MAIN ===
@@ -29,18 +29,24 @@ function findTextInElementTree(element, text_in_regex) {
 
 function transformeStyle (elementes, find_regex, add_text) {
 
+    var list_number_of_ads =[];
+
     elementes.forEach( element => {
+        // Add Class Style 
         element.classList.add("chamativo");
         element.classList.add("rainbow");
         
+        // Change Text Content
         if (element.textContent.match(find_regex)) {
             const original_text = element.textContent;    
             const number_of_ads = Number( original_text.replace(/\D/g, "") );
-            const dozens_ads = rage_dozens(number_of_ads);        
+            list_number_of_ads.push(number_of_ads);  // salva para pintar a tabela de escala 
+            const dozens_ads = rage_dozens(number_of_ads);       
             element.textContent = `${original_text} ${add_text} ${dozens_ads}`;            
         }
-
     });
+
+    printTabelaEscala(list_number_of_ads);
 }
     
 function rage_dozens (num) {
@@ -94,3 +100,23 @@ function rage_dozens (num) {
 }
 
 
+function Categoria(escala, ocorrencia) {
+    this.Escala = escala;
+    this.Ocorrencia = ocorrencia;
+}
+
+function printTabelaEscala (list_number_of_ads) {
+  const tabela = {};
+  tabela.MenosDe10   = new Categoria( "menos de 10"   , list_number_of_ads.filter(x=> x<10           ).length);
+  tabela.MaisDe10    = new Categoria( "Mais de 10"    , list_number_of_ads.filter(x=> x>=10 && x<20  ).length);
+  tabela.MaisDe20    = new Categoria( "Mais de 20"    , list_number_of_ads.filter(x=> x>=20 && x<30  ).length);
+  tabela.MaisDe30    = new Categoria( "Mais de 30"    , list_number_of_ads.filter(x=> x>=30 && x<40  ).length);
+  tabela.MaisDe40    = new Categoria( "Mais de 40"    , list_number_of_ads.filter(x=> x>=40 && x<50  ).length);
+  tabela.MaisDe50    = new Categoria( "Mais de 50"    , list_number_of_ads.filter(x=> x>=50 && x<60  ).length);
+  tabela.MaisDe60    = new Categoria( "Mais de 60"    , list_number_of_ads.filter(x=> x>=60 && x<70  ).length);
+  tabela.MaisDe70    = new Categoria( "Mais de 70"    , list_number_of_ads.filter(x=> x>=70 && x<80  ).length);
+  tabela.MaisDe80    = new Categoria( "Mais de 80"    , list_number_of_ads.filter(x=> x>=80 && x<90  ).length);
+  tabela.MaisDe90    = new Categoria( "Mais de 90"    , list_number_of_ads.filter(x=> x>=90 && x<100 ).length);
+  tabela.MaisDe100   = new Categoria( "Mais de 100"   , list_number_of_ads.filter(x=> x>=100         ).length);
+  console.table(tabela);
+}
