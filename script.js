@@ -1,27 +1,46 @@
 console.log('Executando extenção fb-ads-finder');
 
-replaceText(document.body);
+//  === VARIAVEIS ===
+const find_regex = /anúncios/g;
+const add_text = 'marcosolha';
 
-function replaceText(element){
 
-    const find_regex = /anúncios/g;
-    const add_text = 'marcosolha';
+//  === MAIN ===
+var elements = findTextInElementTree(document.body, find_regex);
+transformeStyle(elements, find_regex, add_text);
 
-    if(element.hasChildNodes()) {
-        element.childNodes.forEach(replaceText) //recursivamente vai chamando as funções para os filhos dos elementos
-    } else if (element.nodeType === Text.TEXT_NODE) {
-        if (element.textContent.match(find_regex)) {
 
-            const original_text = element.textContent;
-
-            const number_of_ads = Number( original_text.replace(/\D/g, "") );
-            const dozens_ads = rage_dozens(number_of_ads);
-
-            element.parentElement.classList.add("chamativo");
-            element.parentElement.classList.add("rainbow");
-            element.textContent = `${original_text} ${add_text} ${dozens_ads}`;            
+//  === FUNCTIONS ===
+function findTextInElementTree(element, text_in_regex) {    
+    var list_elemnte_match = [];
+    if (element.hasChildNodes()) {
+        element.childNodes.forEach(function (node) {   // recursivamente vai chamando as funções para os filhos dos elementos
+            var temp = findTextInElementTree(node, text_in_regex);
+            list_elemnte_match = [...list_elemnte_match, ...temp];   // concatena o resultado dos filhos com o pai
+            return list_elemnte_match;
+        });
+    } else if (element.nodeType === Text.TEXT_NODE) {   // verifica se nó e do tipo texto
+        if (element.textContent.match(text_in_regex)) {
+            return [element.parentElement];
         }
     }
+    return list_elemnte_match;
+}
+
+function transformeStyle (elementes, find_regex, add_text) {
+
+    elementes.forEach( element => {
+        element.classList.add("chamativo");
+        element.classList.add("rainbow");
+        
+        if (element.textContent.match(find_regex)) {
+            const original_text = element.textContent;    
+            const number_of_ads = Number( original_text.replace(/\D/g, "") );
+            const dozens_ads = rage_dozens(number_of_ads);        
+            element.textContent = `${original_text} ${add_text} ${dozens_ads}`;            
+        }
+
+    });
 }
     
 function rage_dozens (num) {
