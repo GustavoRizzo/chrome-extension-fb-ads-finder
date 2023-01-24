@@ -1,7 +1,7 @@
-console.log('Executando extenção fb-ads-finder');
+console.log('Executando extenção fb-ads-finder!');
 
 //  === VARIAVEIS ===
-var find_regex = /anúncios/g;
+var find_regex = /[0-9]+\s+anúncios/g;
 var add_text = 'marcosolha';
 
 
